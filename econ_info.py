@@ -458,7 +458,7 @@ end_date = f"{end_year}-12-31"
 selected_countries = st.multiselect(
     "Select countries to compare (max 5):",
     options=list(st.session_state.all_countries.keys()),
-    default=list(st.session_state.all_countries.keys())[:2],
+    default=["🇺🇸 United States"],  # Set the US as the default selected country
     max_selections=5
 )
 
