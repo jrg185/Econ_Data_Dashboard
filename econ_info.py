@@ -293,7 +293,7 @@ BASE_COUNTRIES = {
     }
 }
 
-def check_data_availability(data):
+def check_data_availability(data, frequency):
     """
     Check data availability and return status
     Returns: 'good' (>75% data), 'partial' (25-75% data), or 'bad' (<25% data)
@@ -301,14 +301,24 @@ def check_data_availability(data):
     if data is None or data.empty:
         return 'bad'
     
-    total_points = data.size
-    available_points = data.count().sum()
-    availability_pct = (available_points / total_points) * 100
+    # Determine the number of expected data points based on frequency
+    if frequency == 'quarterly':
+        total_points = len(pd.date_range(start=data.index[0], end=data.index[-1], freq='Q'))
+    elif frequency == 'monthly':
+        total_points = len(pd.date_range(start=data.index[0], end=data.index[-1], freq='M'))
+    else:
+        total_points = len(data)
     
-    if availability_pct >= 75:
-        return 'good'
-    elif availability_pct >= 25:
-        return 'partial'
+    available_points = data.count()
+    
+    if total_points > 0:
+        availability_pct = (available_points / total_points) * 100
+        if availability_pct >= 75:
+            return 'good'
+        elif availability_pct >= 25:
+            return 'partial'
+        else:
+            return 'bad'
     else:
         return 'bad'
 
@@ -328,7 +338,10 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                     if indicator_type == 'gdp':
                         data = data.pct_change() * 100
                     elif indicator_type in ['unemployment', 'inflation']:
-                        data = data.resample('Q').last()
+                        if len(data) > 0 and isinstance(data.index[0], pd.Timestamp):
+                            # Resample to quarterly if the data is not already quarterly
+                            if data.index.freq != 'Q':
+                                data = data.resample('Q').last()
                     
                     all_data[country_name] = data
                 except:
@@ -386,19 +399,27 @@ def create_enhanced_plot(data, title, y_label):
     
     return fig
 
-def style_dataframe(df):
+def style_dataframe(df, frequency):
     """Style the dataframe with appropriate formatting"""
     if df is None or df.empty:
         return None
         
-    # Keep only last 12 quarters
-    df = df.head(12)
+    # Keep only last 12 quarters/months
+    if frequency == 'quarterly':
+        df = df.head(12)
+    elif frequency == 'monthly':
+        df = df.head(36)
     
     # Format values with proper handling of missing data
     def format_value(x):
         if pd.isna(x):
             return "Not Available"
-        return f"{x:.2f}%"
+        if frequency == 'quarterly':
+            return f"{x:.2f}%"
+        elif frequency == 'monthly':
+            return f"{x:.2f}%"
+        else:
+            return str(x)
     
     styled_df = df.applymap(format_value)
     
@@ -450,27 +471,24 @@ if selected_countries:
     infl_data = fetch_fred_data(selected_countries, st.session_state.all_countries, 
                                'inflation', start_date, end_date)
     
-    def get_status_emoji(data):
+    def get_status_emoji(data, frequency):
         """Convert availability check to appropriate emoji"""
         if data is None or data.empty:
             return "🔴"  # red circle for bad
         
-        total_points = data.size
-        available_points = data.count().sum()
-        availability_pct = (available_points / total_points) * 100
-        
-        if availability_pct >= 75:
+        status = check_data_availability(data, frequency)
+        if status == 'good':
             return "🟢"  # green circle for good
-        elif availability_pct >= 25:
+        elif status == 'partial':
             return "🟡"  # yellow circle for partial
         else:
             return "🔴"  # red circle for bad
 
     # Create tabs with status emojis and data availability text
     tab1, tab2, tab3 = st.tabs([
-        f"📈 GDP Growth (Data Availability: {get_status_emoji(gdp_data)})",
-        f"👥 Unemployment (Data Availability: {get_status_emoji(unemp_data)})",
-        f"💰 Inflation (Data Availability: {get_status_emoji(infl_data)})"
+        f"📈 GDP Growth (Data Availability: {get_status_emoji(gdp_data, 'quarterly')})",
+        f"👥 Unemployment (Data Availability: {get_status_emoji(unemp_data, 'quarterly')})",
+        f"💰 Inflation (Data Availability: {get_status_emoji(infl_data, 'quarterly')})"
     ])
     # Add JavaScript to handle tab coloring
     st.markdown("""
@@ -507,7 +525,7 @@ if selected_countries:
                 st.plotly_chart(fig, use_container_width=True)
                 
                 st.subheader("GDP Growth - Last 12 Quarters")
-                styled_gdp = style_dataframe(gdp_data)
+                styled_gdp = style_dataframe(gdp_data, 'quarterly')
                 if styled_gdp is not None:
                     st.dataframe(styled_gdp, use_container_width=True)
     
@@ -521,7 +539,7 @@ if selected_countries:
                 st.plotly_chart(fig, use_container_width=True)
                 
                 st.subheader("Unemployment - Last 12 Quarters")
-                styled_unemp = style_dataframe(unemp_data)
+                styled_unemp = style_dataframe(unemp_data, 'quarterly')
                 if styled_unemp is not None:
                     st.dataframe(styled_unemp, use_container_width=True)
     
@@ -535,7 +553,7 @@ if selected_countries:
                 st.plotly_chart(fig, use_container_width=True)
                 
                 st.subheader("Inflation - Last 12 Quarters")
-                styled_infl = style_dataframe(infl_data)
+                styled_infl = style_dataframe(infl_data, 'quarterly')
                 if styled_infl is not None:
                     st.dataframe(styled_infl, use_container_width=True)
 
