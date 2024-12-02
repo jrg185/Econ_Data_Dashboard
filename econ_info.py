@@ -40,191 +40,192 @@ st.markdown("""
 FRED_API_KEY = "292a22259a26aa4f7e00d9ba22db9c56"
 fred = Fred(api_key=FRED_API_KEY)
 
+# First, let's update the inflation series IDs to consistently use FPCPITOTLZG format
 BASE_COUNTRIES = {
     '🇦🇷 Argentina': {
         'gdp': 'ARGRGDPEXP',
         'unemployment': 'LRHUTTTTARM156S',
-        'inflation': 'FPCPITOTLZGAFA'
+        'inflation': 'FPCPITOTLZGAFA'  # Already correct
     },
     '🇦🇺 Australia': {
-        'gdp': 'AUSGDPRQDSMEI',  # This format works well
+        'gdp': 'AUSGDPRQDSMEI',
         'unemployment': 'LRHUTTTTAUM156S',
-        'inflation': 'CPALTT01AUM659N'
+        'inflation': 'FPCPITOTLZGAUS'  # Changed from CPALTT format
     },
     '🇦🇹 Austria': {
         'gdp': 'AUTRGDPEXP',
         'unemployment': 'LRHUTTTTAUM156S',
-        'inflation': 'CPALTT01ATM659N'
+        'inflation': 'FPCPITOTLZGAUT'  # Changed from CPALTT format
     },
     '🇧🇪 Belgium': {
-        'gdp': 'BENGDPRQDSMEI',  # This format works well
+        'gdp': 'BENGDPRQDSMEI',
         'unemployment': 'LRHUTTTTBEM156S',
-        'inflation': 'CPALTT01BEM659N'
+        'inflation': 'FPCPITOTLZGBEL'  # Changed from CPALTT format
     },
     '🇧🇷 Brazil': {
         'gdp': 'BRARGDPEXP',
         'unemployment': 'LRHUTTTTBRM156S',
-        'inflation': 'FPCPITOTLZGBRA'
+        'inflation': 'FPCPITOTLZGBRA'  # Already correct
     },
     '🇨🇦 Canada': {
         'gdp': 'NGDPRSAXDCCAQ',
         'unemployment': 'LRHUTTTTCAM156S',
-        'inflation': 'CPALTT01CAM659N'
+        'inflation': 'FPCPITOTLZGCAN'  # Changed from CPALTT format
     },
     '🇨🇱 Chile': {
         'gdp': 'CHLRGDPEXP',
         'unemployment': 'LRHUTTTTCLM156S',
-        'inflation': 'FPCPITOTLZGCHL'
+        'inflation': 'FPCPITOTLZGCHL'  # Already correct
     },
     '🇨🇳 China': {
         'gdp': 'CHNRGDPEXP',
         'unemployment': 'LRHUTTTTCNM156S',
-        'inflation': 'FPCPITOTLZGCHN'
+        'inflation': 'FPCPITOTLZGCHN'  # Already correct
     },
     '🇨🇴 Colombia': {
         'gdp': 'COLRGDPEXP',
         'unemployment': 'LRHUTTTTCLM156S',
-        'inflation': 'FPCPITOTLZGCOL'
+        'inflation': 'FPCPITOTLZGCOL'  # Already correct
     },
     '🇨🇿 Czech Republic': {
         'gdp': 'CZEARGDPEXP',
         'unemployment': 'LRHUTTTTCZM156S',
-        'inflation': 'CPALTT01CZM659N'
+        'inflation': 'FPCPITOTLZGCZE'  # Changed from CPALTT format
     },
     '🇩🇰 Denmark': {
         'gdp': 'DNKRGDPEXP',
         'unemployment': 'LRHUTTTTDEM156S',
-        'inflation': 'CPALTT01DKM659N'
+        'inflation': 'FPCPITOTLZGDNK'  # Changed from CPALTT format
     },
     '🇫🇮 Finland': {
         'gdp': 'FINRGDPEXP',
         'unemployment': 'LRHUTTTTFIM156S',
-        'inflation': 'CPALTT01FIM659N'
+        'inflation': 'FPCPITOTLZGFIN'  # Changed from CPALTT format
     },
     '🇫🇷 France': {
-        'gdp': 'CLVMNACSCAB1GQFR',  # This format works well
+        'gdp': 'CLVMNACSCAB1GQFR',
         'unemployment': 'LRHUTTTTFRM156S',
-        'inflation': 'CPALTT01FRM659N'
+        'inflation': 'FPCPITOTLZGFRA'  # Changed from CPALTT format
     },
     '🇩🇪 Germany': {
-        'gdp': 'CLVMNACSCAB1GQDE',  # This format works well
+        'gdp': 'CLVMNACSCAB1GQDE',
         'unemployment': 'LRHUTTTTDEM156S',
-        'inflation': 'CPALTT01DEM659N'
+        'inflation': 'FPCPITOTLZGDEU'  # Changed from CPALTT format
     },
     '🇬🇷 Greece': {
         'gdp': 'GRCARGDPEXP',
         'unemployment': 'LRHUTTTTGRM156S',
-        'inflation': 'CPALTT01GRM659N'
+        'inflation': 'FPCPITOTLZGGRC'  # Changed from CPALTT format
     },
     '🇭🇰 Hong Kong': {
         'gdp': 'HKGRGDPEXP',
         'unemployment': 'LRHUTTTTHKM156S',
-        'inflation': 'FPCPITOTLZGHKG'
+        'inflation': 'FPCPITOTLZGHKG'  # Already correct
     },
     '🇮🇳 India': {
         'gdp': 'INDRGDPEXP',
         'unemployment': 'LRHUTTTTINM156S',
-        'inflation': 'FPCPITOTLZGIN'
+        'inflation': 'FPCPITOTLZGIN'  # Already correct
     },
     '🇮🇩 Indonesia': {
         'gdp': 'IDNRGDPEXP',
         'unemployment': 'LRHUTTTTIDM156S',
-        'inflation': 'FPCPITOTLZGIDN'
+        'inflation': 'FPCPITOTLZGIDN'  # Already correct
     },
     '🇮🇪 Ireland': {
         'gdp': 'IRLRGDPEXP',
         'unemployment': 'LRHUTTTTIRM156S',
-        'inflation': 'CPALTT01IRM659N'
+        'inflation': 'FPCPITOTLZGIRL'  # Changed from CPALTT format
     },
     '🇮🇱 Israel': {
         'gdp': 'ISRRGDPEXP',
         'unemployment': 'LRHUTTTTILM156S',
-        'inflation': 'FPCPITOTLZGISR'
+        'inflation': 'FPCPITOTLZGISR'  # Already correct
     },
     '🇮🇹 Italy': {
         'gdp': 'ITARGDPEXP',
         'unemployment': 'LRHUTTTTITM156S',
-        'inflation': 'CPALTT01ITM659N'
+        'inflation': 'FPCPITOTLZGITA'  # Changed from CPALTT format
     },
     '🇯🇵 Japan': {
         'gdp': 'JPNRGDPEXP',
         'unemployment': 'LRHUTTTTJPM156S',
-        'inflation': 'CPALTT01JPM659N'
+        'inflation': 'FPCPITOTLZGJPN'  # Changed from CPALTT format
     },
     '🇰🇷 South Korea': {
         'gdp': 'KORRGDPEXP',
         'unemployment': 'LRHUTTTTKRM156S',
-        'inflation': 'CPALTT01KRM659N'
+        'inflation': 'FPCPITOTLZGKOR'  # Changed from CPALTT format
     },
     '🇲🇽 Mexico': {
         'gdp': 'MEXRGDPEXP',
         'unemployment': 'LRHUTTTTMXM156S',
-        'inflation': 'FPCPITOTLZGMEX'
+        'inflation': 'FPCPITOTLZGMEX'  # Already correct
     },
     '🇳🇱 Netherlands': {
         'gdp': 'NLDRGDPEXP',
         'unemployment': 'LRHUTTTTNLM156S',
-        'inflation': 'CPALTT01NLM659N'
+        'inflation': 'FPCPITOTLZGNLD'  # Changed from CPALTT format
     },
     '🇳🇿 New Zealand': {
         'gdp': 'NZLRGDPEXP',
         'unemployment': 'LRHUTTTTNZM156S',
-        'inflation': 'CPALTT01NZM659N'
+        'inflation': 'FPCPITOTLZGNZL'  # Changed from CPALTT format
     },
     '🇳🇴 Norway': {
         'gdp': 'NORRGDPEXP',
         'unemployment': 'LRHUTTTTNOM156S',
-        'inflation': 'CPALTT01NOM659N'
+        'inflation': 'FPCPITOTLZGNOR'  # Changed from CPALTT format
     },
     '🇵🇱 Poland': {
         'gdp': 'POLRGDPEXP',
         'unemployment': 'LRHUTTTTPLM156S',
-        'inflation': 'CPALTT01PLM659N'
+        'inflation': 'FPCPITOTLZGPOL'  # Changed from CPALTT format
     },
     '🇵🇹 Portugal': {
         'gdp': 'PORRGDPEXP',
-        'unemployment': 'LRHUTTTTPTM156S',
-        'inflation': 'CPALTT01PRM659N'
+        'unemployment': 'LRHUTTTTPRM156S',
+        'inflation': 'FPCPITOTLZGPRT'  # Changed from CPALTT format
     },
     '🇷🇺 Russia': {
         'gdp': 'RUSRRGDPEXP',
         'unemployment': 'LRHUTTTTRUM156S',
-        'inflation': 'FPCPITOTLZGRUS'
+        'inflation': 'FPCPITOTLZGRUS'  # Already correct
     },
     '🇿🇦 South Africa': {
         'gdp': 'ZAFRGDPEXP',
         'unemployment': 'LRHUTTTTZAM156S',
-        'inflation': 'FPCPITOTLZGZAF'
+        'inflation': 'FPCPITOTLZGZAF'  # Already correct
     },
     '🇪🇸 Spain': {
-        'gdp': 'ESPGDPRQDSMEI',  # This format works well
+        'gdp': 'ESPGDPRQDSMEI',
         'unemployment': 'LRHUTTTTESM156S',
-        'inflation': 'CPALTT01ESM659N'
+        'inflation': 'FPCPITOTLZGESP'  # Changed from CPALTT format
     },
     '🇸🇪 Sweden': {
-        'gdp': 'SWEGDPRQDSMEI',  # This format works well
+        'gdp': 'SWEGDPRQDSMEI',
         'unemployment': 'LRHUTTTTSEM156S',
-        'inflation': 'CPALTT01SEM659N'
+        'inflation': 'FPCPITOTLZGSWE'  # Changed from CPALTT format
     },
     '🇨🇭 Switzerland': {
-        'gdp': 'CHEGDPRQDSMEI',  # This format works well
+        'gdp': 'CHEGDPRQDSMEI',
         'unemployment': 'LRHUTTTTCHM156S',
-        'inflation': 'CPALTT01CHM659N'
+        'inflation': 'FPCPITOTLZGCHE'  # Changed from CPALTT format
     },
     '🇹🇷 Turkey': {
         'gdp': 'TURRGDPEXP',
         'unemployment': 'LRHUTTTTTRM156S',
-        'inflation': 'FPCPITOTLZGTR'
+        'inflation': 'FPCPITOTLZGTUR'  # Already correct
     },
     '🇬🇧 United Kingdom': {
         'gdp': 'UKNGDP',
         'unemployment': 'LRHUTTTTGBM156S',
-        'inflation': 'CPALTT01GBM659N'
+        'inflation': 'FPCPITOTLZGGBR'  # Changed from CPALTT format
     },
     '🇺🇸 United States': {
         'gdp': 'GDPC1',
         'unemployment': 'UNRATE',
-        'inflation': 'CPIAUCSL'
+        'inflation': 'FPCPITOTLZGUSA'  # Changed from CPIAUCSL
     }
 }
 
@@ -279,27 +280,26 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                             continue
                     
                     if not data.empty:
-                        # Handle different transformations based on indicator type and series format
+                        # Handle different transformations based on indicator type
                         if indicator_type == 'gdp':
-                            if series_id == 'GDPC1':  # US GDP
-                                transformed_data = data.pct_change() * 100  # Quarterly change
-                            else:  # All other GDP series
-                                transformed_data = data.pct_change() * 100
+                            # GDP always needs quarter-over-quarter transformation
+                            transformed_data = data.pct_change() * 100
                         
                         elif indicator_type == 'unemployment':
-                            # Unemployment is already in percentage
+                            # Unemployment is already in percentage form
                             transformed_data = data
                         
                         elif indicator_type == 'inflation':
-                            # No transformation needed for FPCPITOTLZG series - already in correct percentage form
-                            transformed_data = data
+                            # FPCPITOTLZG series are already in correct percentage form
+                            # No transformation needed, just use raw data
+                            transformed_data = data.copy()
                         
-                        # Remove any infinite values and handle resampling if needed
-                        transformed_data = transformed_data.replace([np.inf, -np.inf], np.nan)
-                        
-                        # For any non-quarterly data, resample to quarterly
+                        # Handle resampling to quarterly if needed
                         if hasattr(transformed_data.index, 'freq') and transformed_data.index.freq != 'Q':
                             transformed_data = transformed_data.resample('Q').last()
+                        
+                        # Remove any infinite values
+                        transformed_data = transformed_data.replace([np.inf, -np.inf], np.nan)
                         
                         all_data[country_name] = transformed_data
                     else:
@@ -314,7 +314,8 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                                                                          freq='Q'))
         
         if all_data:
-            df = pd.DataFrame(all_data)
+            # Create DataFrame with no additional calculations
+            df = pd.DataFrame(all_data, copy=True)
             return df.sort_index(ascending=False)
         return None
 
