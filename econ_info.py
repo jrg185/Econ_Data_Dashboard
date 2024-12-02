@@ -47,7 +47,7 @@ BASE_COUNTRIES = {
         'inflation': 'FPCPITOTLZGAFA'
     },
     '🇦🇺 Australia': {
-        'gdp': 'AUSGDPRQDSMEI',
+        'gdp': 'AUSGDPRQDSMEI',  # This format works well
         'unemployment': 'LRHUTTTTAUM156S',
         'inflation': 'CPALTT01AUM659N'
     },
@@ -57,7 +57,7 @@ BASE_COUNTRIES = {
         'inflation': 'CPALTT01ATM659N'
     },
     '🇧🇪 Belgium': {
-        'gdp': 'BENGDPRQDSMEI',
+        'gdp': 'BENGDPRQDSMEI',  # This format works well
         'unemployment': 'LRHUTTTTBEM156S',
         'inflation': 'CPALTT01BEM659N'
     },
@@ -86,11 +86,6 @@ BASE_COUNTRIES = {
         'unemployment': 'LRHUTTTTCLM156S',
         'inflation': 'FPCPITOTLZGCOL'
     },
-    '🇨🇷 Costa Rica': {
-        'gdp': 'CRIRGDPEXP',
-        'unemployment': 'LRHUTTTTCRM156S',
-        'inflation': 'FPCPITOTLZGCRI'
-    },
     '🇨🇿 Czech Republic': {
         'gdp': 'CZEARGDPEXP',
         'unemployment': 'LRHUTTTTCZM156S',
@@ -101,28 +96,18 @@ BASE_COUNTRIES = {
         'unemployment': 'LRHUTTTTDEM156S',
         'inflation': 'CPALTT01DKM659N'
     },
-    '🇪🇨 Ecuador': {
-        'gdp': 'ECURGDPEXP',
-        'unemployment': 'LRHUTTTTECM156S',
-        'inflation': 'FPCPITOTLZGECU'
-    },
-    '🇪🇪 Estonia': {
-        'gdp': 'ESTRGDPEXP',
-        'unemployment': 'LRHUTTTTEST156S',
-        'inflation': 'CPALTT01EEM659N'
-    },
     '🇫🇮 Finland': {
         'gdp': 'FINRGDPEXP',
         'unemployment': 'LRHUTTTTFIM156S',
         'inflation': 'CPALTT01FIM659N'
     },
     '🇫🇷 France': {
-        'gdp': 'CLVMNACSCAB1GQFR',
+        'gdp': 'CLVMNACSCAB1GQFR',  # This format works well
         'unemployment': 'LRHUTTTTFRM156S',
         'inflation': 'CPALTT01FRM659N'
     },
     '🇩🇪 Germany': {
-        'gdp': 'CLVMNACSCAB1GQDE',
+        'gdp': 'CLVMNACSCAB1GQDE',  # This format works well
         'unemployment': 'LRHUTTTTDEM156S',
         'inflation': 'CPALTT01DEM659N'
     },
@@ -132,19 +117,9 @@ BASE_COUNTRIES = {
         'inflation': 'CPALTT01GRM659N'
     },
     '🇭🇰 Hong Kong': {
-        'gdp': 'HKGARGDPEXP',
+        'gdp': 'HKGRGDPEXP',
         'unemployment': 'LRHUTTTTHKM156S',
         'inflation': 'FPCPITOTLZGHKG'
-    },
-    '🇭🇺 Hungary': {
-        'gdp': 'HUNRGDPEXP',
-        'unemployment': 'LRHUTTTTHUM156S',
-        'inflation': 'CPALTT01HUM659N'
-    },
-    '🇮🇸 Iceland': {
-        'gdp': 'ISLRGDPEXP',
-        'unemployment': 'LRHUTTTTISM156S',
-        'inflation': 'CPALTT01ISM659N'
     },
     '🇮🇳 India': {
         'gdp': 'INDRGDPEXP',
@@ -171,35 +146,15 @@ BASE_COUNTRIES = {
         'unemployment': 'LRHUTTTTITM156S',
         'inflation': 'CPALTT01ITM659N'
     },
-     '🇯🇵 Japan': {
+    '🇯🇵 Japan': {
         'gdp': 'JPNRGDPEXP',
         'unemployment': 'LRHUTTTTJPM156S',
         'inflation': 'CPALTT01JPM659N'
-    },
-    '🇰🇪 Kenya': {
-        'gdp': 'KENRGDPEXP',
-        'unemployment': 'LRHUTTTTKEM156S',
-        'inflation': 'FPCPITOTLZGKEN'
     },
     '🇰🇷 South Korea': {
         'gdp': 'KORRGDPEXP',
         'unemployment': 'LRHUTTTTKRM156S',
         'inflation': 'CPALTT01KRM659N'
-    },
-    '🇱🇻 Latvia': {
-        'gdp': 'LVARGDPEXP',
-        'unemployment': 'LRHUTTTTLVM156S',
-        'inflation': 'CPALTT01LVM659N'
-    },
-    '🇱🇹 Lithuania': {
-        'gdp': 'LTURGPDPEXP',
-        'unemployment': 'LRHUTTTTLTM156S',
-        'inflation': 'CPALTT01LTM659N'
-    },
-    '🇲🇾 Malaysia': {
-        'gdp': 'MYSRGDPEXP',
-        'unemployment': 'LRHUTTTTMYM156S',
-        'inflation': 'FPCPITOTLZGMYS'
     },
     '🇲🇽 Mexico': {
         'gdp': 'MEXRGDPEXP',
@@ -221,16 +176,6 @@ BASE_COUNTRIES = {
         'unemployment': 'LRHUTTTTNOM156S',
         'inflation': 'CPALTT01NOM659N'
     },
-    '🇵🇰 Pakistan': {
-        'gdp': 'PAKRGDPEXP',
-        'unemployment': 'LRHUTTTTPKM156S',
-        'inflation': 'FPCPITOTLZGPak'
-    },
-    '🇵🇭 Philippines': {
-        'gdp': 'PHLRGDPEXP',
-        'unemployment': 'LRHUTTTTPHM156S',
-        'inflation': 'FPCPITOTLZGPHL'
-    },
     '🇵🇱 Poland': {
         'gdp': 'POLRGDPEXP',
         'unemployment': 'LRHUTTTTPLM156S',
@@ -238,23 +183,13 @@ BASE_COUNTRIES = {
     },
     '🇵🇹 Portugal': {
         'gdp': 'PORRGDPEXP',
-        'unemployment': 'LRHUTTTTPRM156S',
+        'unemployment': 'LRHUTTTTPTM156S',
         'inflation': 'CPALTT01PRM659N'
-    },
-    '🇷🇴 Romania': {
-        'gdp': 'ROMRGDPEXP',
-        'unemployment': 'LRHUTTTTROM156S',
-        'inflation': 'CPALTT01ROM659N'
     },
     '🇷🇺 Russia': {
         'gdp': 'RUSRRGDPEXP',
         'unemployment': 'LRHUTTTTRUM156S',
         'inflation': 'FPCPITOTLZGRUS'
-    },
-    '🇸🇦 Saudi Arabia': {
-        'gdp': 'SAURGDPEXP',
-        'unemployment': 'LRHUTTTTSAM156S',
-        'inflation': 'FPCPITOTLZGSAU'
     },
     '🇿🇦 South Africa': {
         'gdp': 'ZAFRGDPEXP',
@@ -262,17 +197,17 @@ BASE_COUNTRIES = {
         'inflation': 'FPCPITOTLZGZAF'
     },
     '🇪🇸 Spain': {
-        'gdp': 'ESPGDPRQDSMEI',
+        'gdp': 'ESPGDPRQDSMEI',  # This format works well
         'unemployment': 'LRHUTTTTESM156S',
         'inflation': 'CPALTT01ESM659N'
     },
     '🇸🇪 Sweden': {
-        'gdp': 'SWENGDPRQDSMEI',
+        'gdp': 'SWEGDPRQDSMEI',  # This format works well
         'unemployment': 'LRHUTTTTSEM156S',
         'inflation': 'CPALTT01SEM659N'
     },
     '🇨🇭 Switzerland': {
-        'gdp': 'CHEGDPRQDSMEI',
+        'gdp': 'CHEGDPRQDSMEI',  # This format works well
         'unemployment': 'LRHUTTTTCHM156S',
         'inflation': 'CPALTT01CHM659N'
     },
@@ -289,10 +224,9 @@ BASE_COUNTRIES = {
     '🇺🇸 United States': {
         'gdp': 'GDPC1',
         'unemployment': 'UNRATE',
-        'inflation': 'CPALTT01USM657N'
+        'inflation': 'CPIAUCSL'
     }
 }
-
 
 def check_data_availability(data, frequency):
     """
@@ -332,9 +266,11 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                     attempts = 3
                     for attempt in range(attempts):
                         try:
-                            data = fred.get_series(series_id, 
-                                                 observation_start=start_date,
-                                                 observation_end=end_date)
+                            data = fred.get_series(
+                                series_id, 
+                                observation_start=start_date,
+                                observation_end=end_date
+                            )
                             if not data.empty:
                                 break
                         except Exception as e:
@@ -342,24 +278,37 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                                 raise e
                             continue
                     
-                    # Handle different frequencies and transformations
                     if not data.empty:
+                        # Handle different transformations based on indicator type and series format
                         if indicator_type == 'gdp':
-                            data = data.pct_change() * 100
-                        elif indicator_type in ['unemployment', 'inflation']:
-                            if isinstance(data.index[0], pd.Timestamp):
-                                if data.index.freq != 'Q':
-                                    data = data.resample('Q').last()
+                            if series_id == 'GDPC1':  # US GDP
+                                transformed_data = data.pct_change() * 100  # Quarterly change
+                            else:  # All other GDP series
+                                transformed_data = data.pct_change() * 100
                         
-                        # Remove any infinite values that might result from calculations
-                        data = data.replace([np.inf, -np.inf], np.nan)
-                        all_data[country_name] = data
+                        elif indicator_type == 'unemployment':
+                            # Unemployment is already in percentage
+                            transformed_data = data
+                        
+                        elif indicator_type == 'inflation':
+                            # No transformation needed for FPCPITOTLZG series - already in correct percentage form
+                            transformed_data = data
+                        
+                        # Remove any infinite values and handle resampling if needed
+                        transformed_data = transformed_data.replace([np.inf, -np.inf], np.nan)
+                        
+                        # For any non-quarterly data, resample to quarterly
+                        if hasattr(transformed_data.index, 'freq') and transformed_data.index.freq != 'Q':
+                            transformed_data = transformed_data.resample('Q').last()
+                        
+                        all_data[country_name] = transformed_data
                     else:
                         all_data[country_name] = pd.Series(index=pd.date_range(start=start_date, 
                                                                              end=end_date, 
                                                                              freq='Q'))
                 except Exception as e:
-                    print(f"Error fetching data for {country_name}: {str(e)}")
+                    print(f"Error processing {country_name} {indicator_type}: {str(e)}")
+                    print(f"Series ID: {series_id}")
                     all_data[country_name] = pd.Series(index=pd.date_range(start=start_date, 
                                                                          end=end_date, 
                                                                          freq='Q'))
@@ -372,7 +321,7 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
     except Exception as e:
         print(f"Error in fetch_fred_data: {str(e)}")
         return None
-
+    
 def create_enhanced_plot(data, title, y_label):
     """Create an enhanced plot using plotly"""
     if data is None or data.empty:
@@ -790,7 +739,7 @@ if selected_countries:
     
     with tab4:
         st.subheader("Combined Economic Metrics - Country Comparison")
-        if len(selected_countries) > 0:
+        if len(selected_countries) > 1:  # Check if we have at least 2 countries selected
             # Add country selectors for comparison
             col1, col2 = st.columns(2)
             with col1:
@@ -805,11 +754,11 @@ if selected_countries:
                 country2 = st.selectbox(
                     "Select second country:",
                     options=remaining_countries,
-                    index=0 if remaining_countries else None,
+                    index=0,
                     key='country2'
                 )
             
-            if country2:  # Only proceed if both countries are selected
+            if country1 and country2:  # Check if both countries are selected
                 fig = create_combined_metrics_plot_comparison(gdp_data, unemp_data, infl_data, country1, country2)
                 if fig:
                     st.plotly_chart(fig, use_container_width=True)
@@ -843,8 +792,9 @@ if selected_countries:
                         st.warning("No comparison data available for the selected time period.")
                 else:
                     st.warning("No data available for the selected countries and time period.")
-            else:
-                st.warning("Please select two different countries to compare.")
+        else:
+            st.warning("Please select at least two countries from the main selection above to enable comparison.")
+            
     # Download section
     if all(v is not None for v in [gdp_data, unemp_data, infl_data]):
         st.markdown("---")
