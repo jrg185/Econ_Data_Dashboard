@@ -280,49 +280,69 @@ def fetch_fred_data(selected_countries, country_data, indicator_type='gdp', star
                             continue
                     
                     if not data.empty:
+                        # Convert index to datetime if it's not already
+                        data.index = pd.to_datetime(data.index)
+                        
                         # Handle different transformations based on indicator type
                         if indicator_type == 'gdp':
-                            # GDP always needs quarter-over-quarter transformation
                             transformed_data = data.pct_change() * 100
-                        
                         elif indicator_type == 'unemployment':
-                            # Unemployment is already in percentage form
                             transformed_data = data
-                        
                         elif indicator_type == 'inflation':
-                            # FPCPITOTLZG series are already in correct percentage form
-                            # No transformation needed, just use raw data
                             transformed_data = data.copy()
+                            if transformed_data.median() > 100:
+                                transformed_data = transformed_data / 100
+                            transformed_data = transformed_data.clip(lower=-100, upper=100)
                         
-                        # Handle resampling to quarterly if needed
-                        if hasattr(transformed_data.index, 'freq') and transformed_data.index.freq != 'Q':
-                            transformed_data = transformed_data.resample('Q').last()
-                        
-                        # Remove any infinite values
+                        # Handle resampling to quarterly
+                        transformed_data = transformed_data.resample('Q', convention='end').last()
+                        transformed_data.index = transformed_data.index + pd.offsets.QuarterEnd(0)
                         transformed_data = transformed_data.replace([np.inf, -np.inf], np.nan)
                         
                         all_data[country_name] = transformed_data
                     else:
-                        all_data[country_name] = pd.Series(index=pd.date_range(start=start_date, 
-                                                                             end=end_date, 
-                                                                             freq='Q'))
+                        all_data[country_name] = pd.Series(
+                            index=pd.date_range(start=start_date, end=end_date, freq='Q')
+                        )
                 except Exception as e:
                     print(f"Error processing {country_name} {indicator_type}: {str(e)}")
-                    print(f"Series ID: {series_id}")
-                    all_data[country_name] = pd.Series(index=pd.date_range(start=start_date, 
-                                                                         end=end_date, 
-                                                                         freq='Q'))
+                    all_data[country_name] = pd.Series(
+                        index=pd.date_range(start=start_date, end=end_date, freq='Q')
+                    )
         
         if all_data:
-            # Create DataFrame with no additional calculations
-            df = pd.DataFrame(all_data, copy=True)
+            df = pd.DataFrame(all_data)
+            # Explicitly sort index in descending order (newest first)
             return df.sort_index(ascending=False)
         return None
 
     except Exception as e:
         print(f"Error in fetch_fred_data: {str(e)}")
         return None
+
+def style_dataframe(df, frequency):
+    """Style the dataframe with appropriate formatting"""
+    if df is None or df.empty:
+        return None
     
+    styled_df = df.copy()
+    
+    # Keep only last 12 quarters and ensure descending order
+    styled_df = styled_df.sort_index(ascending=False).head(12)
+    
+    # Format the index to show quarters
+    styled_df.index = styled_df.index.strftime('%Y Q%q')
+    
+    def format_value(x):
+        if pd.isna(x):
+            return "Not Available"
+        return f"{x:>8.2f}%"
+    
+    for col in styled_df.columns:
+        styled_df[col] = styled_df[col].apply(format_value)
+    
+    return styled_df
+
 def create_enhanced_plot(data, title, y_label):
     """Create an enhanced plot using plotly"""
     if data is None or data.empty:
@@ -330,9 +350,11 @@ def create_enhanced_plot(data, title, y_label):
     
     fig = go.Figure()
     
-    for column in data.columns:
-        # Only include non-null values in the plot
-        valid_data = data[column].dropna()
+    # Sort data in descending order for consistent display
+    plot_data = data.sort_index(ascending=False).copy()
+    
+    for column in plot_data.columns:
+        valid_data = plot_data[column].dropna()
         if not valid_data.empty:
             fig.add_trace(
                 go.Scatter(
@@ -342,7 +364,7 @@ def create_enhanced_plot(data, title, y_label):
                     line=dict(width=3),
                     mode='lines+markers',
                     marker=dict(size=8),
-                    hovertemplate="%{y:.2f}%<br>%{x}<extra></extra>"
+                    hovertemplate="%{y:.2f}%<br>%{x|%Y Q%q}<extra></extra>"
                 )
             )
     
@@ -358,8 +380,22 @@ def create_enhanced_plot(data, title, y_label):
         showlegend=True
     )
     
-    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
-    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
+    # Update x-axis to always show newest data on left
+    fig.update_xaxes(
+        showgrid=True,
+        gridwidth=1,
+        gridcolor='LightGray',
+        tickformat="%Y Q%q",
+        dtick="M3",
+        tickangle=0,
+        autorange="reversed"  # This ensures newest data is on the left
+    )
+    
+    fig.update_yaxes(
+        showgrid=True,
+        gridwidth=1,
+        gridcolor='LightGray'
+    )
     
     return fig
 
